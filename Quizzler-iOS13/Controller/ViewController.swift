@@ -18,7 +18,7 @@ class ViewController: UIViewController {
     
     //quizBrainへ委譲
     var quizBrain = QuizBrain()
- 
+    
     //アプリ起動時に一度だけされるアクション
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -27,24 +27,19 @@ class ViewController: UIViewController {
     //answerButtonPressedが押された時のアクション
     @IBAction func answerButtonPressed(_ sender: UIButton) {
         //userAnserという定数に、送り手のタイトルを代入
-        let userAnswer = sender.currentTitle!
+        guard let userAnswer = sender.currentTitle else { return }
         // userGotItRightという定数に、quizBrainで答えが合っているか調べたものを代入
         let userGotItRight = quizBrain.checkAnswer(userAnswer)
-       
         
-        //答え合わせし、答えが合っていたら、ボタンのカラーをグリーンにする
-        if userGotItRight  {
-            sender.backgroundColor = UIColor.green
-        //間違っていたら赤にする
-        }else{
-            sender.backgroundColor = UIColor.red
-        }
-       
+        
+        //答え合わせし、答えが合っていたら、ボタンのカラーをグリーンにし間違っていたら赤にする
+        sender.backgroundColor = userGotItRight ?  UIColor.green : UIColor.red
+        
         //質問の進行をquizBrainに委譲
         quizBrain.nextQuestion()
         
-            //タイマーの設定をする
-            Timer.scheduledTimer(timeInterval:  0.2, target: self, selector: #selector(updateUI), userInfo: nil, repeats: false)
+        //タイマーの設定をする
+        Timer.scheduledTimer(timeInterval:  0.2, target: self, selector: #selector(updateUI), userInfo: nil, repeats: false)
     }
     
     //タイマーが終了したら画面を以下のように更新させろという指令
@@ -54,12 +49,12 @@ class ViewController: UIViewController {
         //クイズ内容を更新
         questionLabel.text = quizBrain.getQuestionText()
         //スコア表示を更新
-        scoreLabel.text = "Score: \(quizBrain.getScore())"
+        scoreLabel.text = "Score: \(quizBrain.score)"
         //trueボタンのカラーをクリアに更新
         trueButton.backgroundColor = UIColor.clear
         //falseボタンのカラーをクリアに更新
         falseButton.backgroundColor = UIColor.clear
-      
+        
         
     }
 }

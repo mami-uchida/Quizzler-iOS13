@@ -38,14 +38,7 @@ struct QuizBrain {
             return false
         }
     }
-    
-    
-    
-    //スコアを返す
-    func getScore() -> Int {
-        return score
-    }
-    
+
     
     
     //クイズ内容を返す
@@ -63,13 +56,13 @@ struct QuizBrain {
     
     
     //クイズの残りがあったら継続し、そうでなければ停止し、スコアを0にする
-        mutating func nextQuestion() {
+    mutating func nextQuestion() {
         if questionNumber + 1 < quiz.count {
             questionNumber += 1
         } else {
             questionNumber = 0
             score = 0
-                
+            
         }
     }
     
